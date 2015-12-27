@@ -8,18 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
 	
 	private  static final String CREATE_PROVINCE="create table province(" +
-			"id integer primary key autoincrement" +
-			"province_name text" +
+			"id integer primary key autoincrement," +
+			"province_name text," +
 			"province_code text)";
 	private  static final String CREATE_CITY="create table city(" +
-			"id integer primary key autoinrement" +
-			"city_name text" +
-			"city_code text" +
+			"id integer primary key autoincrement," +
+			"city_name text," +
+			"city_code text," +
 			"province_id integer)";
 	private static final String CREATE_COUNTRY="create table country(" +
-			"id integer primary key autoincrement" +
-			"country_name text" +
-			"country_code text" +
+			"id integer primary key autoincrement," +
+			"country_name text," +
+			"country_code text," +
 			"city_id integer)";
 
 	public CoolWeatherOpenHelper(Context context, String name,

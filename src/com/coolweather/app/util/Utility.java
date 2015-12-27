@@ -1,5 +1,16 @@
 package com.coolweather.app.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.coolweather.app.db.CoolWeatherDB;
@@ -62,5 +73,37 @@ public class Utility {
 			}
 		}
 		return false;
+	}
+	
+	public static void handleWeatherResponse(Context context,String response){
+		try {
+			JSONObject jsonObject=new JSONObject(response);
+			JSONObject weatherInfo=jsonObject.getJSONObject("weatherinfo");
+			String cityName=weatherInfo.getString("city");
+			String weatherCode=weatherInfo.getString("cityid");
+			String temp1=weatherInfo.getString("temp1");
+			String temp2=weatherInfo.getString("temp2");
+			String weatherDesp=weatherInfo.getString("weather");
+			String publishTime=weatherInfo.getString("ptime");
+			saveWeatherInfo(context,cityName,weatherCode,temp1,temp2,weatherDesp,publishTime);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void saveWeatherInfo(Context context, String cityName,
+			String weatherCode, String temp1, String temp2, String weatherDesp,
+			String publishTime) {
+		SimpleDateFormat format=new SimpleDateFormat("yyyyƒÍM‘¬d»’");
+		SharedPreferences.Editor edit=PreferenceManager.getDefaultSharedPreferences(context).edit();
+		edit.putBoolean("city_selected", true);
+		edit.putString("city_name", cityName);
+		edit.putString("weather_code", weatherCode);
+		edit.putString("temp1", temp1);
+		edit.putString("temp2", temp2);
+		edit.putString("weather_desp", weatherDesp);
+		edit.putString("publish_time", publishTime);
+		edit.putString("current_date", format.format(new Date()));
+		edit.commit();
 	}
 }
